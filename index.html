@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tokyo — Jul 2–7 2026 · Father &amp; Son</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Space+Mono:wght@400;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#08080f;
+    --panel:#11111c;
+    --panel-2:#171724;
+    --ink:#eef0f6;
+    --muted:#8b8ca3;
+    --line:#26263a;
+    --thu:#ff2e88;   /* magenta */
+    --fri:#19e3ff;   /* cyan */
+    --sat:#ffe11a;   /* electric yellow */
+    --sun:#46ff7a;   /* lime */
+    --mon:#b46bff;   /* violet */
+    --hotel:#ffffff;
+    --disp:"Bricolage Grotesque",system-ui,sans-serif;
+    --body:"Zen Kaku Gothic New",system-ui,sans-serif;
+    --mono:"Space Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:var(--body);line-height:1.6;
+    background-image:radial-gradient(900px 500px at 85% -10%, rgba(255,46,136,.10), transparent 60%),
+                     radial-gradient(800px 500px at 0% 12%, rgba(25,227,255,.08), transparent 55%);
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:0 18px}
+  a{color:inherit}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:54px 0 30px;border-bottom:1px solid var(--line);position:relative}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--muted)}
+  .hero h1{
+    font-family:var(--disp);font-weight:800;line-height:.95;margin:.25em 0 .15em;
+    font-size:clamp(40px,9vw,84px);letter-spacing:-.02em;
+  }
+  .hero h1 .jp{font-family:var(--body);font-weight:700;display:block;font-size:.34em;letter-spacing:.04em;color:var(--muted);margin-top:.5em}
+  .hero .glow1{color:var(--thu);text-shadow:0 0 24px rgba(255,46,136,.55)}
+  .hero .glow2{color:var(--fri);text-shadow:0 0 24px rgba(25,227,255,.45)}
+  .lede{max-width:62ch;color:#c9cbdb;font-size:17px;margin:14px 0 0}
+
+  .facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .fact{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:13px}
+  .fact b{font-family:var(--mono);display:block;color:var(--muted);font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px}
+
+  /* ---------- SHARED ---------- */
+  section{padding:40px 0;border-bottom:1px solid var(--line)}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+  h2.day{font-family:var(--disp);font-weight:800;font-size:clamp(28px,5vw,44px);letter-spacing:-.015em;margin:0 0 4px;line-height:1.02}
+  .day-sub{color:var(--muted);font-size:14px;margin:0 0 22px}
+
+  .panelbox{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;margin:14px 0}
+
+  /* legend */
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:18px}
+  .lg{display:flex;align-items:center;gap:8px;font-size:13px;font-family:var(--mono)}
+  .dot{width:13px;height:13px;border-radius:50%;display:inline-block;box-shadow:0 0 10px currentColor}
+  .dot.thu{background:var(--thu);color:var(--thu)} .dot.fri{background:var(--fri);color:var(--fri)}
+  .dot.sat{background:var(--sat);color:var(--sat)} .dot.sun{background:var(--sun);color:var(--sun)}
+  .dot.mon{background:var(--mon);color:var(--mon)}
+  .dot.hotel{background:#fff;color:#fff;border-radius:2px;transform:rotate(45deg);width:11px;height:11px}
+
+  /* block card */
+  .block{position:relative;margin:22px 0;padding-left:18px}
+  .block::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:3px;border-radius:3px;background:var(--accent,#fff);box-shadow:0 0 14px var(--accent,#fff)}
+  .block .b-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:2px}
+  .block h3{font-family:var(--disp);font-weight:700;font-size:22px;margin:0;letter-spacing:-.01em}
+  .b-time{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent,#fff);border:1px solid var(--line);border-radius:999px;padding:3px 9px}
+  .b-jp{color:var(--muted);font-size:13px}
+  .transit{font-size:13px;color:#c9cbdb;margin:6px 0 12px;display:flex;gap:8px;align-items:flex-start}
+  .transit .pin{color:var(--accent,#fff);font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;padding-top:1px}
+
+  .lines{display:grid;gap:9px;margin:0 0 12px}
+  .line{display:grid;grid-template-columns:48px 1fr;gap:10px;font-size:14.5px}
+  .line .tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+  .line b{color:var(--ink);font-weight:700}
+  .line .opt{color:var(--muted)}
+
+  /* maps */
+  .map{height:230px;border-radius:14px;border:1px solid var(--line);background:#0c0c16;margin-top:6px;z-index:0}
+  .map.big{height:380px}
+  .maphint{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:7px;letter-spacing:.04em}
+
+  /* gift marker */
+  .gift-chip{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:#ffd24a;background:rgba(255,210,74,.10);border:1px solid rgba(255,210,74,.55);border-radius:999px;padding:2px 8px;margin-left:7px;white-space:nowrap;
+    box-shadow:0 0 10px rgba(255,210,74,.18)}
+  .pingift{box-shadow:0 0 0 2px #ffd24a, 0 0 12px 2px #ffd24a !important}
+
+  /* reservations */
+  .res{display:grid;gap:10px}
+  .rcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+  .rcard h4{margin:0 0 4px;font-family:var(--disp);font-size:18px}
+  .rcard .when{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--thu)}
+  .rcard p{margin:6px 0 0;font-size:14px;color:#c9cbdb}
+  .badge{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:999px;border:1px solid var(--line);color:var(--muted);margin-left:6px}
+  .must{color:var(--thu);border-color:var(--thu)}
+
+  /* left-out */
+  .lo-intro{color:#c9cbdb;font-size:15px;max-width:64ch}
+  .lo{margin:20px 0;padding-left:16px;border-left:2px dashed var(--line)}
+  .lo h3{font-family:var(--disp);font-weight:700;font-size:20px;margin:0 0 2px}
+  .lo .why{color:var(--muted);font-size:13px;margin:0 0 8px;font-style:italic}
+  .lo p{margin:0 0 10px;font-size:14.5px;color:#cdd0de}
+  .lo .map{height:200px}
+
+  footer{padding:34px 0 60px;color:var(--muted);font-size:13px}
+  footer .wrap{display:flex;flex-direction:column;gap:6px}
+
+  /* leaflet dark popups */
+  .leaflet-popup-content-wrapper{background:#16162a;color:#eef0f6;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+  .leaflet-popup-tip{background:#16162a}
+  .leaflet-popup-content{font-family:var(--body);font-size:13px;margin:9px 12px}
+  .leaflet-popup-content b{font-family:var(--disp)}
+  .leaflet-container a.leaflet-popup-close-button{color:#8b8ca3}
+  .pinmark{border-radius:50%;border:2px solid #0a0a14;box-shadow:0 0 10px 1px currentColor}
+  .pinhotel{width:14px;height:14px;background:#fff;border:2px solid #0a0a14;transform:rotate(45deg);box-shadow:0 0 12px 2px rgba(255,255,255,.8)}
+
+  /* user location */
+  .userdot{position:relative;width:16px;height:16px;border-radius:50%;background:#3aa0ff;border:2px solid #fff;box-shadow:0 0 0 2px #3aa0ff}
+  .userdot::after{content:"";position:absolute;left:50%;top:50%;width:16px;height:16px;border-radius:50%;background:rgba(58,160,255,.55);transform:translate(-50%,-50%);animation:userpulse 1.8s ease-out infinite}
+  @keyframes userpulse{0%{transform:translate(-50%,-50%) scale(1);opacity:.7}100%{transform:translate(-50%,-50%) scale(3.4);opacity:0}}
+  /* locate control button */
+  .leaflet-bar a.locate-btn{font-size:15px;line-height:26px;text-align:center;text-decoration:none}
+  .leaflet-bar a.locate-btn.on{background:#123;box-shadow:inset 0 0 0 2px #3aa0ff}
+  /* popup direction actions */
+  .pop-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+  a.pop-btn,button.pop-btn{font-family:var(--mono);font-size:11px;letter-spacing:.03em;color:#eef0f6;background:#22223a;border:1px solid #34345a;border-radius:8px;padding:4px 8px;cursor:pointer;text-decoration:none;white-space:nowrap;display:inline-block}
+  a.pop-btn:hover,button.pop-btn:hover{background:#2c2c4a;border-color:#3aa0ff}
+  .dist-tip{background:#123;color:#bfe0ff;border:1px solid #3aa0ff;border-radius:6px;font-family:var(--mono);font-size:11px;padding:2px 6px;box-shadow:none}
+  .dist-tip::before{display:none}
+  #toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#16162a;color:#eef0f6;border:1px solid var(--line);border-radius:10px;padding:10px 16px;font-size:13px;z-index:9999;box-shadow:0 8px 30px rgba(0,0,0,.5);opacity:0;transition:opacity .25s;pointer-events:none;max-width:88vw;text-align:center}
+  #toast.show{opacity:1}
+
+  @media (max-width:560px){
+    .line{grid-template-columns:42px 1fr}
+    .map{height:200px}.map.big{height:300px}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Tokyo field guide · built for two</div>
+    <h1><span class="glow1">TOKYO</span> in <span class="glow2">three</span> days
+      <span class="jp">東京 · 2026年7月2日〜7日 · 父と息子の旅</span>
+    </h1>
+    <p class="lede">Three city days, an arrival-night warm-up, and one open day-trip slot — all hung off your Yotsuya base.
+    Each day is two halves with a hotel nap in the middle: pair a calm half with a loud one, start late, end on neon.</p>
+    <div class="facts">
+      <div class="fact"><b>Base</b>Yotsuya — JR Chūō / Sōbu · Marunouchi (M12) · Namboku (N09)</div>
+      <div class="fact"><b>Dates</b>Thu Jul 2 (eve) → Sun Jul 5 · Mon Jul 6 day-trip · Tue Jul 7 airport</div>
+      <div class="fact"><b>Pay</b>Android → grab a physical Welcome Suica / PASMO, tap &amp; go</div>
+      <div class="fact"><b>Rhythm</b>~3 anchors a day · a green stop most days · nap between halves</div>
+    </div>
+    <div class="legend">
+      <span class="lg"><span class="dot thu"></span>Thu · Shinjuku</span>
+      <span class="lg"><span class="dot fri"></span>Fri · East</span>
+      <span class="lg"><span class="dot sat"></span>Sat · Central + Bay</span>
+      <span class="lg"><span class="dot sun"></span>Sun · West</span>
+      <span class="lg"><span class="dot mon"></span>Mon · Day-trip</span>
+      <span class="lg"><span class="dot hotel"></span>Hotel (Yotsuya)</span>
+      <span class="lg"><span class="gift-chip" style="margin:0">🎁 gift</span>&nbsp;= bring-home idea</span>
+    </div>
+  </div>
+</header>
+
+<!-- OVERVIEW MAP -->
+<section id="overview">
+  <div class="wrap">
+    <p class="kicker">The whole trip, at a glance</p>
+    <h2 class="day">Everything on one map</h2>
+    <p class="day-sub">Every stop, colour-coded by day. The white diamond is your Yotsuya hotel — almost everything is one or two train stops out.</p>
+    <div id="map-overview" class="map big"></div>
+    <p class="maphint">▸ Tap 📍 (top-left of any map) to drop your live location. Tap any dot for its name + <b>Transit</b>/<b>Walk</b> directions, or "On map" to draw a line from where you are. Map tiles &amp; directions need data; the written plan works offline.</p>
+  </div>
+</section>
+
+<!-- THURSDAY -->
+<section id="thu" style="--accent:var(--thu)">
+  <div class="wrap">
+    <p class="kicker">Thu Jul 2 · arrival evening · light</p>
+    <h2 class="day">Shinjuku</h2>
+    <p class="day-sub">Closest big-hitter to the hotel and the perfect jet-lagged welcome — neon and dinner, nothing that needs daylight.</p>
+
+    <div class="block" style="--accent:var(--thu)">
+      <div class="b-head"><h3>Shinjuku night</h3><span class="b-time">eve</span><span class="b-jp">新宿</span></div>
+      <div class="transit"><span class="pin">From Yotsuya</span><span>JR Chūō (orange) — 1 stop, ~5 min.</span></div>
+      <div class="lines">
+        <div class="line"><span class="tag">See</span><span>Kabukichō (歌舞伎町) neon, the 3-D cat billboard, and the Godzilla head over Toho. <span class="opt">Skip Shinjuku Gyoen — it's a daytime garden.</span></span></div>
+        <div class="line"><span class="tag">Do</span><span>Golden Gai (ゴールデン街) — a warren of micro-bars — for a nightcap. <b>Add-on:</b> Game Center Mikado pinball in Takadanobaba, 1–2 stops out, if you're still wired.</span></div>
+        <div class="line"><span class="tag">Eat</span><span><b>Omoide Yokocho</b> (思い出横丁, "Memory Lane") — a smoky alley of tiny yakitori counters — for an easy skewers-and-beer dinner. Tsukemen alt: Fūunji.</span></div>
+      </div>
+      <div class="map" data-block="thu"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FRIDAY -->
+<section id="fri" style="--accent:var(--fri)">
+  <div class="wrap">
+    <p class="kicker">Fri Jul 3 · East · early + full</p>
+    <h2 class="day">Toyosu · Asakusa · Akihabara</h2>
+    <p class="day-sub">Jet lag makes the 5 am natural — open the day at the fish market, nap, then the old temple district, then neon arcades. All east, tight transit.</p>
+
+    <div class="block" style="--accent:var(--fri)">
+      <div class="b-head"><h3>Toyosu</h3><span class="b-time">dawn</span><span class="b-jp">豊洲市場</span></div>
+      <div class="transit"><span class="pin">From Yotsuya</span><span>Pre-dawn taxi, ~20 min — trains don't run that early. <b>Open Fri ✓</b> (closed Sundays, so this only works today).</span></div>
+      <div class="lines">
+        <div class="line"><span class="tag">Do</span><span>Tuna-auction viewing from the free 2F deck — arrive ~5 am.</span></div>
+        <div class="line"><span class="tag">Eat</span><span>An omakase sushi breakfast at <b>Sushi Dai</b> or Daiwa (queue early), or a kaisendon. Then taxi back for a real nap.</span></div>
+      </div>
+      <div class="map" data-block="toyosu"></div>
+    </div>
+
+    <div class="block" style="--accent:var(--fri)">
+      <div class="b-head"><h3>Asakusa</h3><span class="b-time">late morning</span><span class="b-jp">浅草 · craft cluster</span></div>
+      <div class="transit"><span class="pin">From Yotsuya</span><span>~30 min — Marunouchi Line east, transfer to the Ginza Line at Akasaka-mitsuke for the run to Asakusa.</span></div>
+      <div class="lines">
+        <div class="line"><span class="tag">See</span><span>Kaminarimon (雷門, the giant-lantern "Thunder Gate"), Nakamise stalls, Senso-ji (浅草寺) + pagoda, the quiet Denboin-dori lanes, and Kappabashi (合羽橋) "Kitchen Town" — the plastic/wax food-sample shops <span class="gift-chip">🎁 gift</span>. Sumida Park riverbank = your green stop.</span></div>
+        <div class="line"><span class="tag">Do</span><span>Your hands-on workshop — Edo Kiriko (江戸切子, cut-glass) carving at <b>Sokichi</b> <span class="gift-chip">🎁 gift</span>, wax food-sample making at <b>Ganso</b>, or traditional gold <b>kintsugi</b> (金継ぎ) at <b>Tsugu Tsugu</b>. <span class="opt">Reserve ahead — see Reservations.</span> A cut-glass or gold-mended piece makes a beautiful, lasting present.</span></div>
+        <div class="line"><span class="tag">Eat</span><span>Asakusa is tempura country — <b>Daikokuya</b> (since 1887); plus soba and street taiyaki / melonpan.</span></div>
+      </div>
+      <div class="map" data-block="asakusa"></div>
+    </div>
+
+    <div class="block" style="--accent:var(--fri)">
+      <div class="b-head"><h3>Akihabara</h3><span class="b-time">evening</span><span class="b-jp">秋葉原 · geek</span></div>
+      <div class="transit"><span class="pin">From Yotsuya</span><span>JR Chūō–Sōbu (yellow) local — direct, ~12 min.</span></div>
+      <div class="lines">
+        <div class="line"><span class="tag">See</span><span>Chūō-dori (中央通り) neon and the multi-floor anime/electronics towers.</span></div>
+        <div class="line"><span class="tag">Do</span><span><b>Super Potato</b> (retro games), Mandarake, the GiGO arcades, gachapon halls (capsule-toy walls) <span class="gift-chip">🎁 gift</span>, and <b>Yodobashi Akiba</b> — where to compare those VITURE XR glasses.</span></div>
+        <div class="line"><span class="tag">Robots</span><span><b>Tsukumo Robot Kingdom</b> — Japan's first robot specialty store (1-9-7 Sotokanda, upstairs in the Tsukumo PC bldg, ~5 min from the station): bipedal humanoids, build-it-yourself kits from a few hundred yen up to ¥200k+ competition bots, spare parts, plus 3D printers &amp; drones. Nearby Vstone and Robot Aisle are the same scene.</span></div>
+        <div class="line"><span class="tag">Eat</span><span>Kanda tsukemen / ramen, cheap themed eats, standing soba.</span></div>
+        <div class="line"><span class="tag">Shop</span><span><b>Washlet / bidet</b> — <b>Yodobashi Akiba, 5F</b> has a dedicated bidet floor with live demo units. Buy the global 110–240V export model (look for the 海外仕様 / "global" sticker — TOTO Washlet S7/S5/SW), check your toilet's bowl shape &amp; bolt pitch, use the tax-free counter, and they'll arrange EMS/Yamato shipping home. Roughly 15–25% cheaper than at home after tax-free.</span></div>
+      </div>
+      <div class="map" data-block="akiba"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SATURDAY -->
+<section id="sat" style="--accent:var(--sat)">
+  <div class="wrap">
+    <p class="kicker">Sat Jul 4 · Central + Bay · full</p>
+    <h2 class="day">Ginza · Marunouchi/Yūrakuchō · Odaiba</h2>
+    <p class="day-sub">A calm cultured morning, a nap, then your favourite under-the-tracks dinner, then out over the bay for the giant robot. A clean central→bay arc.</p>
+
+    <div class="block" style="--accent:var(--sat)">
+      <div class="b-head"><h3>Ginza</h3><span class="b-time">morning</span><span class="b-jp">銀座</span></div>
+      <div class="transit"><span class="pin">From Yotsuya</span><span>Marunouchi Line (red) — direct, ~12 min to Ginza.</span></div>
+      <div class="lines">
+        <div class="line"><span class="tag">Do</span><span>A single act of <b>Kabuki</b> (歌舞伎) at the Kabukiza (same-day box-office, English caption tablet); <b>Ippodo</b> (一保堂) for your sealed ceremonial matcha (抹茶) tin <span class="gift-chip">🎁 gift</span>; a depachika (basement food-hall) tasting crawl at <b>Mitsukoshi</b>, whose beautifully boxed wagashi and sweets travel well <span class="gift-chip">🎁 gift</span>.</span></div>
+        <div class="line"><span class="tag">Shop</span><span><b>UNIQLO Ginza</b> <span class="gift-chip">🎁 gift</span> — the 12-floor global flagship on Chūō-dori (by Ginza Six): Ginza-exclusive tote bags &amp; tees, the UTme! counter to print your own design, and a 12F café. The personalised tote/T-shirt is a genuinely original present. <span class="opt">(UNIQLO TOKYO at Marronnier Gate, 4 min north, is the alt.)</span></span></div>
+        <div class="line"><span class="tag">See</span><span>Chūō-dori (car-free on weekend afternoons); Hibiya Park nearby for a green breath.</span></div>
+        <div class="line"><span class="tag">Eat</span><span>Depachika bites for lunch; or a Ginza sushi / tempura splurge.</span></div>
+      </div>
+      <div class="map" data-block="ginza"></div>
+    </div>
+
+    <div class="block" style="--accent:var(--sat)">
+      <div class="b-head"><h3>Tokyo Station · Marunouchi · Yūrakuchō</h3><span class="b-time">afternoon–eve</span><span class="b-jp">丸の内・有楽町</span></div>
+      <div class="transit"><span class="pin">From Yotsuya</span><span>Marunouchi Line (red) — direct, ~10 min to Tokyo Station.</span></div>
+      <div class="lines">
+        <div class="line"><span class="tag">See</span><span>The red-brick Marunouchi façade, the free KITTE rooftop, Marunouchi avenues.</span></div>
+        <div class="line"><span class="tag">Do</span><span><b>Intermediatheque</b> (free, eclectic curiosity museum), Tokyo Character Street (basement character-goods arcade) <span class="gift-chip">🎁 gift</span> — easy, fun presents for friends.</span></div>
+        <div class="line"><span class="tag">Eat</span><span><b>Yūrakuchō gado-shita</b> (有楽町ガード下) — the yakitori joints under the railway arches — <b>your favourite dinner.</b> Tsukemen alt: Rokurinsha on Tokyo Ramen Street.</span></div>
+        <div class="line"><span class="tag">Shop</span><span><b>ONLY PREMIO Tokyo</b> — the Yūrakuchō flagship of the Kyoto suit house ONLY (Hulic Square Tokyo 2F, ~3 min from Yūrakuchō, by Hankyu Men's/Lumine). Made-to-measure suits, jackets &amp; shirts with free alterations for years after; open 11:00–21:00. Book ahead for a fitting — a finished suit can be shipped on.</span></div>
+        <div class="line"><span class="tag">Robots</span><span><b>LOVOT Store</b> (home robot) — Marunouchi Building 1F, right by Tokyo Station: meet Groove X's LOVOT, a warm, waddling companion robot that seeks you out and asks to be held. The robot itself sells to Japan residents only, but you can play with them freely and buy goods (a life-size plush is ¥9,980). A quick, delightful stop on this block.</span></div>
+      </div>
+      <div class="map" data-block="marunouchi"></div>
+    </div>
+
+    <div class="block" style="--accent:var(--sat)">
+      <div class="b-head"><h3>Odaiba</h3><span class="b-time">night</span><span class="b-jp">お台場</span></div>
+      <div class="transit"><span class="pin">From Yotsuya</span><span>To Shimbashi (via Ginza), then the Yurikamome over the Rainbow Bridge — ~35–40 min, and the ride itself is the view.</span></div>
+      <div class="lines">
+        <div class="line"><span class="tag">Do</span><span>The life-size <b>Unicorn Gundam</b> at DiverCity — catch a transformation + the night projection show. <span class="opt">The display window closes ~end of August, so July still works.</span></span></div>
+        <div class="line"><span class="tag">See</span><span>Rainbow Bridge lit up, the bayside promenade.</span></div>
+        <div class="line"><span class="tag">Eat</span><span>Optional detour: monja on Monja Street, Tsukishima, on the way back.</span></div>
+      </div>
+      <div class="map" data-block="odaiba"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SUNDAY -->
+<section id="sun" style="--accent:var(--sun)">
+  <div class="wrap">
+    <p class="kicker">Sun Jul 5 · West · the relaxed day</p>
+    <h2 class="day">Harajuku/Omotesando · Shibuya</h2>
+    <p class="day-sub">Forest shrine and leafy cafés in the morning, nap, then Shibuya for cosmetics, the Scramble, and Shibuya Sky timed to sunset.</p>
+
+    <div class="block" style="--accent:var(--sun)">
+      <div class="b-head"><h3>Harajuku · Omotesando · Aoyama</h3><span class="b-time">morning</span><span class="b-jp">原宿・表参道・青山</span></div>
+      <div class="transit"><span class="pin">From Yotsuya</span><span>JR Chūō to Shinjuku → Yamanote to Harajuku — ~15 min.</span></div>
+      <div class="lines">
+        <div class="line"><span class="tag">See</span><span>Meiji Jingu (明治神宮) — a major shrine in its own forest (green stop); Takeshita Street (竹下通り) for rainbow crêpes; Omotesando architecture; the Nezu Museum garden (open Sun).</span></div>
+        <div class="line"><span class="tag">Do</span><span><b>Cafe Reissue</b> 3-D latte art (open Sun); the Aoyama Flower Market Tea House — a greenhouse café.</span></div>
+        <div class="line"><span class="tag">Eat</span><span><b>AFURI</b> yuzu-shio ramen (you loved this); Maisen tonkatsu; a Harajuku sweets crawl.</span></div>
+      </div>
+      <div class="map" data-block="harajuku"></div>
+    </div>
+
+    <div class="block" style="--accent:var(--sun)">
+      <div class="b-head"><h3>Shibuya</h3><span class="b-time">afternoon–eve</span><span class="b-jp">渋谷</span></div>
+      <div class="transit"><span class="pin">From Yotsuya</span><span>JR Chūō to Shinjuku → Yamanote to Shibuya — ~17 min.</span></div>
+      <div class="lines">
+        <div class="line"><span class="tag">See</span><span>The Scramble (from the Mag's Park rooftop, cheap), Hachiko (ハチ公), Miyashita Park.</span></div>
+        <div class="line"><span class="tag">Do</span><span><b>MEGA Donki</b> (Don Quijote) <span class="gift-chip">🎁 gift</span> — cosmetics, snacks and quirky souvenirs, open late; <b>Shibuya Sky at sunset</b> — book a timed slot weeks ahead.</span></div>
+        <div class="line"><span class="tag">Eat</span><span>Center-Gai izakaya or Uobei conveyor sushi. <span class="opt">Note: Nonbei Yokocho is closed Sunday.</span></span></div>
+      </div>
+      <div class="map" data-block="shibuya"></div>
+    </div>
+  </div>
+</section>
+
+<!-- MONDAY -->
+<section id="mon" style="--accent:var(--mon)">
+  <div class="wrap">
+    <p class="kicker">Mon Jul 6 · day-trip · weather-flex</p>
+    <h2 class="day">Out of the city</h2>
+    <p class="day-sub">Monday is the smartest day to leave Tokyo — it's when most city sights (gardens, museums, Café Reissue, Intermediatheque) close. Nothing is missed.</p>
+    <div class="panelbox">
+      <div class="lines">
+        <div class="line"><span class="tag">Lead</span><span><b>Hakone</b> — Hakone Free Pass + Romancecar from Shinjuku. Pirate ship, ropeway, open-air museum, onsen. Forecast-dependent: this is your clear-day pick.</span></div>
+        <div class="line"><span class="tag">Alt</span><span><b>Nikkō</b> (shrines, waterfalls, forest) for a cooler/greener day, or <b>Yokohama</b> (harbour, Chinatown, Cup Noodles Museum) for an easy rain-day option close in.</span></div>
+        <div class="line"><span class="tag">Depart</span><span>Hakone &amp; Nikkō both leave from Shinjuku/Asakusa-side termini — one quick hop from Yotsuya. Say the word and I'll lock Hakone in and build the timetable with live weather.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVATIONS -->
+<section id="reservations">
+  <div class="wrap">
+    <p class="kicker">Book before you go</p>
+    <h2 class="day">Reservations</h2>
+    <p class="day-sub">Only one is a true must-book; the rest are queue-or-walk-up. Listed in trip order.</p>
+    <div class="res">
+      <div class="rcard">
+        <span class="when">Fri · Asakusa</span>
+        <h4>Craft workshop <span class="badge must">must book</span></h4>
+        <p><b>Sokichi Edo Kiriko</b> glass-cutting (~1.5 hr, ages 9+, Japanese with English assist — reserve at sokichi-workshop.com/reservation) <em>or</em> <b>Ganso</b> wax food-sample making (~1 hr, ¥2,300, sessions 11:00 / 14:00 / 16:00; Japanese-only — they recommend an interpreter, though English-speaking staff are sometimes on duty on weekdays if you confirm a day ahead). Popular slots sell out.</p>
+      </div>
+      <div class="rcard">
+        <span class="when">Fri · Asakusa</span>
+        <h4>Kintsugi — Tsugu Tsugu <span class="badge">reserve</span></h4>
+        <p>Traditional, food-safe gold repair at <b>Tsugu Tsugu</b> (1-1-2 Kaminarimon, ~3–4 min from Asakusa Stn). ~60–90 min, small groups; you finish a prepared vessel with real 23K gold and take it home (urushi cures too slowly for a from-scratch repair). ~¥6,000–11,000 pp. English on selected days — <b>email/message ahead to book an English-capable session.</b></p>
+      </div>
+      <div class="rcard">
+        <span class="when">Sun · Shibuya</span>
+        <h4>Shibuya Sky <span class="badge">timed ticket</span></h4>
+        <p>Book a sunset-window slot weeks ahead — it's the centrepiece of the Sunday evening.</p>
+      </div>
+      <div class="rcard">
+        <span class="when">Sat · Ginza</span>
+        <h4>Kabuki single act <span class="badge">same-day only</span></h4>
+        <p>No advance booking — buy at the same-day box-office booth at the Kabukiza. Grab the English caption tablet.</p>
+      </div>
+      <div class="rcard">
+        <span class="when">Sat · Ginza</span>
+        <h4>Ippodo matcha <span class="badge">walk-up</span></h4>
+        <p>No booking. Queue ~10:00; roughly 5 tins per person of the popular grades.</p>
+      </div>
+      <div class="rcard">
+        <span class="when">Fri · Toyosu</span>
+        <h4>Sushi Dai breakfast <span class="badge">queue</span></h4>
+        <p>No booking — join the line ~5 am. Open Friday; closed Sundays.</p>
+      </div>
+      <div class="rcard">
+        <span class="when">optional add-ons</span>
+        <h4>If you want them</h4>
+        <p>Retired-wrestler <b>sumo show + chanko</b> (¥13–16k, book weeks ahead — no Tokyo basho in your dates, July's is in Nagoya); <b>Gonpachi</b> or a Kagurazaka <b>kaiseki</b> (book); <b>Reversible Destiny Lofts</b> English tour (≥1 week ahead). All sit in the left-out blocks below.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEFT-OUT BLOCKS -->
+<section id="leftout">
+  <div class="wrap">
+    <p class="kicker">The bench · for swaps &amp; a return trip</p>
+    <h2 class="day">Blocks left out</h2>
+    <p class="lo-intro">These are the nine areas from your full block library that didn't make the three-day cut. Two were on your shortlist and dropped for time (<b>Yanaka+Nezu</b> and <b>Tsukiji+Hama-rikyu</b>) — those are the natural first swaps. The maps here are area references; centres are approximate.</p>
+
+    <div class="lo">
+      <h3>2 · Skytree / Oshiage</h3>
+      <p class="why">east — pairs with the Asakusa day</p>
+      <p>The 634 m tower up close, decks an hour before sunset for day-into-night, the glass floor, and Solamachi mall at the base. Sumida Edo Kiriko-kan or the Hokusai Museum nearby. A bigger-view alternative to going up Shibuya Sky.</p>
+      <div class="map" data-block="lo-skytree"></div>
+    </div>
+
+    <div class="lo">
+      <h3>3 · Ryogoku</h3>
+      <p class="why">east — sumo country</p>
+      <p>Sumo morning stable practice (silent observation) or the retired-wrestler show + chanko hotpot; the Sumo Museum; Kyu-Yasuda Garden for green. Your sumo itch lives here.</p>
+      <div class="map" data-block="lo-ryogoku"></div>
+    </div>
+
+    <div class="lo">
+      <h3>4 · Ueno</h3>
+      <p class="why">north — your geology wheelhouse</p>
+      <p>Ueno Park's museum row — the <b>National Museum of Nature &amp; Science</b> (dinosaurs, minerals) is squarely your interest — plus Ameyoko market under the tracks and Shinobazu Pond's summer lotus.</p>
+      <div class="map" data-block="lo-ueno"></div>
+    </div>
+
+    <div class="lo">
+      <h3>5 · Yanaka + Nezu <span class="badge must">shortlisted</span></h3>
+      <p class="why">north — the near-miss</p>
+      <p>The old low-rise Tokyo: Yanaka Ginza's nostalgic shopping lane, cat backstreets, and <b>Nezu Shrine's tunnel of red torii</b> — a quieter stand-in for Kyoto's Fushimi Inari. A gentle half-day if you swap something out.</p>
+      <div class="map" data-block="lo-yanaka"></div>
+    </div>
+
+    <div class="lo">
+      <h3>7 · Ikebukuro</h3>
+      <p class="why">north-west — otaku</p>
+      <p>Sunshine City, Otome Road, the Animate flagship, and the largest Pokémon Center. An Akihabara-style geek block if one wasn't enough.</p>
+      <div class="map" data-block="lo-ikebukuro"></div>
+    </div>
+
+    <div class="lo">
+      <h3>10 · Tsukiji + Hama-rikyu <span class="badge must">shortlisted</span></h3>
+      <p class="why">central-bay — the proper tea moment</p>
+      <p>A Tsukiji Outer Market food crawl (tamagoyaki, uni, skewers), then a walk to Hama-rikyu garden and matcha + a sweet at the <b>Nakajima teahouse</b> over the pond — the drop-in tea moment, no booking.</p>
+      <div class="map" data-block="lo-tsukiji"></div>
+    </div>
+
+    <div class="lo">
+      <h3>16 · Kagurazaka</h3>
+      <p class="why">west-central — your special kaiseki pick</p>
+      <p>Cobblestone slopes, hidden alleys (Hyogo-yokocho), Kuma's modern Akagi Shrine — and <b>kaiseki</b>, the refined multi-course dinner you flagged as a special want. A booked-dinner evening.</p>
+      <div class="map" data-block="lo-kagurazaka"></div>
+    </div>
+
+    <div class="lo">
+      <h3>17 · Nishi-Azabu / Roppongi</h3>
+      <p class="why">central-west — evening</p>
+      <p><b>Gonpachi</b>, the izakaya that inspired the <em>Kill Bill</em> set, for robata skewers and soba; the free Azabudai Hills sky lobby; Tokyo Tower lit up nearby.</p>
+      <div class="map" data-block="lo-roppongi"></div>
+    </div>
+
+    <div class="lo">
+      <h3>18 · Mitaka / Kichijoji</h3>
+      <p class="why">far west — half-day excursion</p>
+      <p>The <b>Reversible Destiny Lofts</b> — Arakawa's candy-coloured experimental apartments, toured by appointment — plus Inokashira Park's pond and Kichijoji's Harmonica Yokocho alleys. Book a tour date in your window or skip.</p>
+      <div class="map" data-block="lo-mitaka"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>Built for Jul 2–7 2026 · father &amp; son · Yotsuya base.</div>
+    <div>Maps © OpenStreetMap contributors · tiles © CARTO. Tiles need a connection; the written plan works offline.</div>
+  </div>
+</footer>
+
+<div id="toast"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+(function(){
+  var HOTEL = {name:"Hotel — Yotsuya", lat:35.6862, lng:139.7305, day:"hotel"};
+  var COLORS = {thu:"#ff2e88", fri:"#19e3ff", sat:"#ffe11a", sun:"#46ff7a", mon:"#b46bff", hotel:"#ffffff"};
+
+  // ---- itinerary blocks (precise coords) ----
+  var BLOCKS = {
+    thu:{center:[35.697,139.701], zoom:14, day:"thu", pins:[
+      {n:"Kabukichō neon · 3-D cat · Godzilla", lat:35.6938, lng:139.7034},
+      {n:"Omoide Yokocho (yakitori)", lat:35.6927011, lng:139.6995778},
+      {n:"Golden Gai (micro-bars)", lat:35.6941118, lng:139.7047611},
+      {n:"Fūunji (tsukemen)", lat:35.6868343, lng:139.6966393},
+      {n:"Game Center Mikado (pinball)", lat:35.7127351, lng:139.7034548}
+    ]},
+    toyosu:{center:[35.6442,139.7833], zoom:15, day:"fri", pins:[
+      {n:"Toyosu Market — tuna auction deck", lat:35.6440911, lng:139.784281},
+      {n:"Sushi Dai (breakfast)", lat:35.6443009, lng:139.7824528}
+    ]},
+    asakusa:{center:[35.7118,139.7925], zoom:15, day:"fri", pins:[
+      {n:"Senso-ji + pagoda", lat:35.7147651, lng:139.7966553},
+      {n:"Kaminarimon (Thunder Gate)", lat:35.7111163, lng:139.7963656},
+      {n:"Kappabashi (Kitchen Town · plastic food)", lat:35.7105797, lng:139.7879645, gift:true},
+      {n:"Sokichi — Edo Kiriko cut-glass", lat:35.710252, lng:139.797964, gift:true},
+      {n:"Tsugu Tsugu — kintsugi (gold repair)", lat:35.7093, lng:139.7940},
+      {n:"Daikokuya (tempura, est. 1887)", lat:35.7127383, lng:139.79557}
+    ]},
+    akiba:{center:[35.7001,139.7715], zoom:16, day:"fri", pins:[
+      {n:"Super Potato (retro games)", lat:35.6993585, lng:139.7707015},
+      {n:"Yodobashi Akiba (XR glasses · washlet 5F)", lat:35.698917, lng:139.774798},
+      {n:"Mandarake", lat:35.7003733, lng:139.7705031},
+      {n:"GiGO arcade (Bldg 3)", lat:35.6992456, lng:139.7709552},
+      {n:"Gachapon Hall (capsule toys)", lat:35.7018425, lng:139.7712256, gift:true},
+      {n:"Tsukumo Robot Kingdom (humanoids · kits)", lat:35.7004, lng:139.7716}
+    ]},
+    ginza:{center:[35.6705,139.765], zoom:15, day:"sat", pins:[
+      {n:"Kabukiza (single-act Kabuki)", lat:35.6694253, lng:139.7677446},
+      {n:"Ippodo — ceremonial matcha tin (Mitsukoshi B2)", lat:35.6715069, lng:139.7658249, gift:true},
+      {n:"Mitsukoshi Ginza — depachika sweets", lat:35.6712864, lng:139.7657382, gift:true},
+      {n:"UNIQLO Ginza (12F flagship · UTme!)", lat:35.6692, lng:139.7637, gift:true}
+    ]},
+    marunouchi:{center:[35.6772,139.7645], zoom:15, day:"sat", pins:[
+      {n:"Marunouchi Brick Square", lat:35.6785178, lng:139.7627684},
+      {n:"Intermediatheque", lat:35.6800744, lng:139.7646866},
+      {n:"Tokyo Character Street", lat:35.6820335, lng:139.7686549, gift:true},
+      {n:"Rokurinsha — tsukemen", lat:35.6800519, lng:139.7678455},
+      {n:"Yūrakuchō gado-shita (your dinner)", lat:35.6722281, lng:139.7603095},
+      {n:"ONLY PREMIO Tokyo (made-to-measure suits)", lat:35.6746, lng:139.7628},
+      {n:"LOVOT Store (home robot · Marunouchi Bldg)", lat:35.6812, lng:139.7649}
+    ]},
+    odaiba:{center:[35.6256,139.7755], zoom:15, day:"sat", pins:[
+      {n:"Unicorn Gundam — DiverCity night show", lat:35.624451, lng:139.7754917}
+    ]},
+    harajuku:{center:[35.6695,139.706], zoom:15, day:"sun", pins:[
+      {n:"Meiji Jingu (forest shrine)", lat:35.6763976, lng:139.6993259},
+      {n:"Takeshita Street", lat:35.6710335, lng:139.7051821},
+      {n:"Cafe Reissue (3-D latte)", lat:35.6711763, lng:139.7079583},
+      {n:"AFURI — yuzu ramen", lat:35.6730053, lng:139.7038019},
+      {n:"Maisen — tonkatsu", lat:35.667925, lng:139.7115365},
+      {n:"Aoyama Flower Market Tea House", lat:35.6622458, lng:139.7134816},
+      {n:"Nezu Museum garden", lat:35.6622568, lng:139.7170937}
+    ]},
+    shibuya:{center:[35.6595,139.700], zoom:16, day:"sun", pins:[
+      {n:"Shibuya Scramble", lat:35.659482, lng:139.7005596},
+      {n:"Hachiko statue", lat:35.6590579, lng:139.7006293},
+      {n:"Shibuya Sky (sunset)", lat:35.6586719, lng:139.7019848},
+      {n:"MEGA Donki — cosmetics & souvenirs", lat:35.6603873, lng:139.6978172, gift:true},
+      {n:"Nonbei Yokocho (closed Sun)", lat:35.6599499, lng:139.701533}
+    ]},
+    // ---- left-out (approximate area references) ----
+    "lo-skytree":{center:[35.7101,139.8107], zoom:15, day:"mon", pins:[
+      {n:"Tokyo Skytree + Solamachi", lat:35.7100627, lng:139.8107004}
+    ]},
+    "lo-ryogoku":{center:[35.6963,139.793], zoom:15, day:"mon", pins:[
+      {n:"Ryogoku Kokugikan / Sumo Museum", lat:35.6967, lng:139.7933},
+      {n:"Kyu-Yasuda Garden", lat:35.6952, lng:139.7935}
+    ]},
+    "lo-ueno":{center:[35.7156,139.7745], zoom:15, day:"mon", pins:[
+      {n:"Ueno Park", lat:35.7156, lng:139.7745},
+      {n:"Nat'l Museum of Nature & Science", lat:35.7163, lng:139.7760},
+      {n:"Ameyoko market", lat:35.7090, lng:139.7745},
+      {n:"Shinobazu Pond", lat:35.7118, lng:139.7700}
+    ]},
+    "lo-yanaka":{center:[35.724,139.764], zoom:15, day:"mon", pins:[
+      {n:"Yanaka Ginza lane", lat:35.7276, lng:139.7656},
+      {n:"Nezu Shrine — red torii tunnel", lat:35.7202, lng:139.7616}
+    ]},
+    "lo-ikebukuro":{center:[35.7295,139.717], zoom:15, day:"mon", pins:[
+      {n:"Sunshine City / Pokémon Center", lat:35.7290, lng:139.7190},
+      {n:"Animate Ikebukuro / Otome Road", lat:35.7320, lng:139.7150}
+    ]},
+    "lo-tsukiji":{center:[35.6628,139.767], zoom:15, day:"mon", pins:[
+      {n:"Tsukiji Outer Market", lat:35.6654, lng:139.7707},
+      {n:"Hama-rikyu garden", lat:35.6597, lng:139.7637},
+      {n:"Nakajima teahouse (matcha)", lat:35.6600, lng:139.7640}
+    ]},
+    "lo-kagurazaka":{center:[35.7034,139.739], zoom:16, day:"mon", pins:[
+      {n:"Kagurazaka slope", lat:35.7028, lng:139.7400},
+      {n:"Akagi Shrine", lat:35.7040, lng:139.7370}
+    ]},
+    "lo-roppongi":{center:[35.6595,139.735], zoom:14, day:"mon", pins:[
+      {n:"Gonpachi (Kill Bill izakaya)", lat:35.6589, lng:139.7251},
+      {n:"Azabudai Hills — sky lobby", lat:35.6605, lng:139.7410},
+      {n:"Tokyo Tower", lat:35.6586, lng:139.7454}
+    ]},
+    "lo-mitaka":{center:[35.702,139.573], zoom:14, day:"mon", pins:[
+      {n:"Reversible Destiny Lofts", lat:35.7045, lng:139.5577},
+      {n:"Inokashira Park", lat:35.7000, lng:139.5700},
+      {n:"Harmonica Yokocho (Kichijoji)", lat:35.7032, lng:139.5800}
+    ]}
+  };
+
+  var TILE = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";
+  var ATTR = '© OpenStreetMap · © CARTO';
+
+  function dot(color, big, gift){
+    var s = big ? 16 : 12;
+    var cls = "pinmark" + (gift ? " pingift" : "");
+    return L.divIcon({className:"", iconSize:[s,s], iconAnchor:[s/2,s/2],
+      html:'<span class="'+cls+'" style="display:block;width:'+s+'px;height:'+s+'px;background:'+color+';color:'+color+'"></span>'});
+  }
+  function esc(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function gmapsDir(lat,lng,mode){ return 'https://www.google.com/maps/dir/?api=1&destination='+lat+','+lng+'&travelmode='+mode; }
+  function buildPopup(p){
+    var name = (p.gift ? '🎁 ' : '') + p.n;
+    var html = '<b>'+esc(name)+'</b>';
+    if(p.gift) html += "<br><span style='color:#ffd24a'>gift idea</span>";
+    html += '<div class="pop-actions">'
+         +  '<a class="pop-btn" href="'+gmapsDir(p.lat,p.lng,'transit')+'" target="_blank" rel="noopener">🚇 Transit</a>'
+         +  '<a class="pop-btn" href="'+gmapsDir(p.lat,p.lng,'walking')+'" target="_blank" rel="noopener">🚶 Walk</a>'
+         +  '<button class="pop-btn js-course" type="button">🧭 On map</button>'
+         +  '</div>';
+    return html;
+  }
+
+  // ---- geolocation ----
+  var allMaps = [];
+  var userLatLng = null, userAcc = null, watching = false, pendingRecenter = null;
+  var userIcon = L.divIcon({className:'', iconSize:[16,16], iconAnchor:[8,8], html:'<div class="userdot"></div>'});
+  var toastEl = document.getElementById('toast'), toastT;
+  function toast(msg){
+    if(!toastEl) return;
+    toastEl.textContent = msg; toastEl.classList.add('show');
+    clearTimeout(toastT); toastT = setTimeout(function(){ toastEl.classList.remove('show'); }, 3800);
+  }
+  function haversine(a,b,c,d){
+    var R=6371, dLat=(c-a)*Math.PI/180, dLng=(d-b)*Math.PI/180;
+    var s=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(a*Math.PI/180)*Math.cos(c*Math.PI/180)*Math.sin(dLng/2)*Math.sin(dLng/2);
+    return R*2*Math.atan2(Math.sqrt(s),Math.sqrt(1-s));
+  }
+  function fmtDist(km){ return km<1 ? Math.round(km*1000)+' m' : km.toFixed(km<10?1:0)+' km'; }
+
+  function paintUser(map){
+    if(!userLatLng) return;
+    if(map._userMarker){ map._userMarker.setLatLng(userLatLng); }
+    else { map._userMarker = L.marker(userLatLng,{icon:userIcon, zIndexOffset:1000, interactive:false}).addTo(map); }
+    var r = Math.min(Math.max(userAcc||30,20),300);
+    if(map._userCircle){ map._userCircle.setLatLng(userLatLng).setRadius(r); }
+    else { map._userCircle = L.circle(userLatLng,{radius:r, color:'#3aa0ff', weight:1, fillColor:'#3aa0ff', fillOpacity:.10, interactive:false}).addTo(map); }
+  }
+  function ensureWatch(){
+    if(watching) return;
+    if(!('geolocation' in navigator)){
+      toast(window.isSecureContext ? "This browser doesn't support location." :
+        "Location needs a secure page — open this file over https or a local server, not directly as a file.");
+      return;
+    }
+    watching = true;
+    navigator.geolocation.watchPosition(function(pos){
+      userLatLng = [pos.coords.latitude, pos.coords.longitude];
+      userAcc = pos.coords.accuracy;
+      allMaps.forEach(paintUser);
+      if(pendingRecenter){ var m=pendingRecenter; pendingRecenter=null; m.setView(userLatLng, Math.max(m.getZoom(),15)); }
+    }, function(err){
+      watching = false; // allow another tap to retry
+      if(err.code===1){
+        toast("Location blocked. If no prompt appeared: check this site's location permission in the browser, and that your device's Location Services are on for the browser.");
+      } else {
+        toast("Couldn't get a location fix — check GPS and your connection, then tap 📍 again.");
+      }
+    }, {enableHighAccuracy:true, maximumAge:8000, timeout:20000});
+  }
+  function addLocateControl(map){
+    var Ctl = L.Control.extend({
+      options:{position:'topleft'},
+      onAdd:function(){
+        var bar = L.DomUtil.create('div','leaflet-bar');
+        var a = L.DomUtil.create('a','locate-btn', bar);
+        a.href='#'; a.innerHTML='📍'; a.title='Show my location';
+        L.DomEvent.on(a,'click',function(e){
+          L.DomEvent.stop(e);
+          if(userLatLng){ map.setView(userLatLng, Math.max(map.getZoom(),15)); }
+          else { pendingRecenter = map; toast('Finding your location…'); }
+          ensureWatch();
+        });
+        return bar;
+      }
+    });
+    map.addControl(new Ctl());
+  }
+  function plotCourseOnMap(map, p){
+    if(!userLatLng){ ensureWatch(); toast('Tap 📍 to find your location, then try "On map" again.'); return; }
+    if(map._routeLayer){ map.removeLayer(map._routeLayer); }
+    var line = L.polyline([userLatLng, [p.lat,p.lng]], {color:'#3aa0ff', weight:3, dashArray:'6,8', opacity:.9});
+    map._routeLayer = L.layerGroup([line]).addTo(map);
+    var km = haversine(userLatLng[0],userLatLng[1],p.lat,p.lng);
+    var mid = [(userLatLng[0]+p.lat)/2,(userLatLng[1]+p.lng)/2];
+    L.tooltip({permanent:true,direction:'center',className:'dist-tip'}).setLatLng(mid).setContent(fmtDist(km)+' · straight line').addTo(map._routeLayer);
+    try{ map.fitBounds(line.getBounds(),{padding:[45,45]}); }catch(e){}
+    map.closePopup();
+  }
+  function wireCourse(marker, map, p){
+    marker.on('popupopen', function(e){
+      var el = e.popup.getElement(); if(!el) return;
+      var btn = el.querySelector('.js-course');
+      if(btn){ btn.onclick = function(){ plotCourseOnMap(map, p); }; }
+    });
+  }
+  function addPoi(map, p, color, big){
+    var m = L.marker([p.lat,p.lng],{icon:dot(color,big,p.gift)}).addTo(map).bindPopup(buildPopup(p));
+    wireCourse(m, map, p);
+    return m;
+  }
+  function hotelIcon(){
+    return L.divIcon({className:"", iconSize:[14,14], iconAnchor:[7,7], html:'<span class="pinhotel"></span>'});
+  }
+  function addHotel(map){
+    var hp = {n:"Yotsuya — your base", lat:HOTEL.lat, lng:HOTEL.lng};
+    var m = L.marker([HOTEL.lat,HOTEL.lng],{icon:hotelIcon()}).addTo(map).bindPopup(buildPopup(hp));
+    wireCourse(m, map, hp);
+  }
+  function registerMap(map){ allMaps.push(map); addLocateControl(map); paintUser(map); }
+
+  function buildBlock(map, key){
+    var b = BLOCKS[key];
+    var color = COLORS[b.day];
+    b.pins.forEach(function(p){ addPoi(map, p, color, false); });
+    addHotel(map);
+  }
+
+  function makeMap(el, center, zoom){
+    var m = L.map(el,{scrollWheelZoom:false, attributionControl:true}).setView(center, zoom);
+    L.tileLayer(TILE,{attribution:ATTR, subdomains:"abcd", maxZoom:19}).addTo(m);
+    registerMap(m);
+    return m;
+  }
+
+  // overview
+  var ov = makeMap(document.getElementById("map-overview"), [35.678,139.755], 11);
+  var allPts = [[HOTEL.lat,HOTEL.lng]];
+  Object.keys(BLOCKS).forEach(function(k){
+    if(k.indexOf("lo-")===0) return; // itinerary blocks only on the overview
+    var b = BLOCKS[k], color = COLORS[b.day];
+    b.pins.forEach(function(p){ addPoi(ov, p, color, true); allPts.push([p.lat,p.lng]); });
+  });
+  addHotel(ov);
+  try{ ov.fitBounds(allPts,{padding:[40,40]}); }catch(e){}
+
+  // lazy-init per-block maps when scrolled into view
+  var pending = {};
+  document.querySelectorAll(".map[data-block]").forEach(function(el){
+    pending[el.getAttribute("data-block")] = el;
+  });
+  function initEl(el){
+    var key = el.getAttribute("data-block");
+    if(!key || el._done) return;
+    el._done = true;
+    var b = BLOCKS[key]; if(!b) return;
+    var m = makeMap(el, b.center, b.zoom);
+    buildBlock(m, key);
+    setTimeout(function(){ m.invalidateSize(); }, 60);
+  }
+  if("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ initEl(en.target); io.unobserve(en.target); } });
+    },{rootMargin:"200px"});
+    Object.values(pending).forEach(function(el){ io.observe(el); });
+  } else {
+    Object.values(pending).forEach(initEl);
+  }
+
+  // Location is requested only when you tap 📍 (a user gesture) — that's what reliably triggers the browser prompt.
+})();
+</script>
+</body>
+</html>
