@@ -21,6 +21,7 @@
     --sat:#ffe11a;   /* electric yellow */
     --sun:#46ff7a;   /* lime */
     --mon:#b46bff;   /* violet */
+    --food:#ff8c42;  /* restaurants (orange) */
     --hotel:#ffffff;
     --disp:"Bricolage Grotesque",system-ui,sans-serif;
     --body:"Zen Kaku Gothic New",system-ui,sans-serif;
@@ -68,6 +69,7 @@
   .dot.thu{background:var(--thu);color:var(--thu)} .dot.fri{background:var(--fri);color:var(--fri)}
   .dot.sat{background:var(--sat);color:var(--sat)} .dot.sun{background:var(--sun);color:var(--sun)}
   .dot.mon{background:var(--mon);color:var(--mon)}
+  .dot.food{background:var(--food);color:var(--food)}
   .dot.hotel{background:#fff;color:#fff;border-radius:2px;transform:rotate(45deg);width:11px;height:11px}
 
   /* block card */
@@ -90,6 +92,22 @@
   .map{height:230px;border-radius:14px;border:1px solid var(--line);background:#0c0c16;margin-top:6px;z-index:0}
   .map.big{height:380px}
   .maphint{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:7px;letter-spacing:.04em}
+  .eats{margin:16px 0 2px;border-top:1px dashed var(--line);padding-top:14px}
+  .eats-h{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--food);margin:0 0 12px;display:flex;align-items:center;gap:8px}
+  .eats-h::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--food);box-shadow:0 0 9px var(--food);flex:none}
+  .eat{margin:0 0 12px;font-size:14px;color:#c9cbdb;line-height:1.5}
+  .eat:last-child{margin-bottom:2px}
+  .eat .en{color:var(--ink);font-weight:700}
+  .eat .pr{color:var(--food);font-family:var(--mono);font-size:11px;letter-spacing:.04em}
+  .eat .bg{color:var(--food);border:1px solid var(--food);border-radius:999px;padding:1px 7px;font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;margin-left:4px;white-space:nowrap}
+  .eat .mk{color:var(--muted);font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);border-radius:999px;padding:1px 7px;margin-left:4px;white-space:nowrap}
+  .eat .d{color:#aeb0c4}
+  .timeline{margin:18px 0 2px;border:1px solid var(--line);border-radius:12px;padding:16px 16px 8px;background:rgba(180,107,255,.05)}
+  .tl-h{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--mon);margin:0 0 13px}
+  .tl{display:flex;gap:12px;margin:0 0 11px;font-size:13.5px;color:#c9cbdb;line-height:1.45}
+  .tl .tt{font-family:var(--mono);font-size:12px;color:var(--mon);flex:none;width:58px;padding-top:1px;letter-spacing:.02em}
+  .tl b{color:var(--ink)}
+  .tl .note{color:var(--muted);font-size:12.5px;margin:2px 0 0}
 
   /* gift marker */
   .gift-chip{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
@@ -174,6 +192,7 @@
       <span class="lg"><span class="dot sun"></span>Sun · West</span>
       <span class="lg"><span class="dot mon"></span>Mon · Hakone</span>
       <span class="lg"><span class="dot hotel"></span>Hotel (Yotsuya)</span>
+      <span class="lg"><span class="dot food"></span>Restaurants</span>
       <span class="lg"><span class="gift-chip" style="margin:0">🎁 gift</span>&nbsp;= bring-home idea</span>
     </div>
   </div>
@@ -203,9 +222,15 @@
       <div class="lines">
         <div class="line"><span class="tag">See</span><span>Kabukichō (歌舞伎町) neon, the 3-D cat billboard, and the Godzilla head over Toho. <span class="opt">Skip Shinjuku Gyoen — it's a daytime garden.</span></span></div>
         <div class="line"><span class="tag">Do</span><span>Golden Gai (ゴールデン街) — a warren of micro-bars — for a nightcap. <b>Add-on:</b> Game Center Mikado pinball in Takadanobaba, 1–2 stops out, if you're still wired.</span></div>
-        <div class="line"><span class="tag">Eat</span><span><b>Omoide Yokocho</b> (思い出横丁, "Memory Lane") — a smoky alley of tiny yakitori counters — for an easy skewers-and-beer dinner. Tsukemen alt: Fūunji.</span></div>
+        <div class="line"><span class="tag">Night</span><span><b>Omoide Yokocho</b> (思い出横丁, "Memory Lane") — a smoky alley of tiny yakitori counters — plus Golden Gai's micro-bars, for an easy skewers-and-beer first night.</span></div>
       </div>
       <div class="map" data-block="thu"></div>
+      <div class="eats">
+        <div class="eats-h">Where to eat — near your base</div>
+        <div class="eat"><span class="en">Konjiki Hototogisu</span><span class="bg">Bib Gourmand</span><span class="pr"> · ¥¥</span><br><span class="d">Ramen. A clam-and-chicken shio/shoyu bowl finished with black-truffle &amp; porcini oil — delicate but deep. Numbered-ticket / LINE-app queue, no reservations; grab a number before it opens. Closed Sun &amp; Mon. ~¥1,300–1,600.</span></div>
+        <div class="eat"><span class="en">Shinjuku Kappo Nakajima</span><span class="mk">1★ · lunch only</span><span class="pr"> · ¥</span><br><span class="d">Kappo. A Michelin-starred kitchen whose weekday <b>lunch</b> is a famous bargain — humble sardine done several ways from ~¥1,000. Walk in; arrive before 11:30. (Skip the pricey booked dinner.) Closed Sun.</span></div>
+        <div class="eat"><span class="en">Fūunji</span><span class="pr">¥</span><br><span class="d">Tsukemen. Cult dipping-ramen in a thick chicken-seafood dashi; ticket machine, brisk queue near Shinjuku's south side. ~¥1,100.</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -222,9 +247,13 @@
       <div class="transit"><span class="pin">From Yotsuya</span><span>Pre-dawn taxi, ~20 min — trains don't run that early. <b>Open Fri ✓</b> (closed Sundays, so this only works today).</span></div>
       <div class="lines">
         <div class="line"><span class="tag">Do</span><span>Tuna-auction viewing from the free 2F deck — arrive ~5 am.</span></div>
-        <div class="line"><span class="tag">Eat</span><span>An omakase sushi breakfast at <b>Sushi Dai</b> or Daiwa (queue early), or a kaisendon. Then taxi back for a real nap.</span></div>
+        <div class="line"><span class="tag">Nap</span><span>Then taxi back for a real nap — you'll have been up since ~4am.</span></div>
       </div>
       <div class="map" data-block="toyosu"></div>
+      <div class="eats">
+        <div class="eats-h">Where to eat</div>
+        <div class="eat"><span class="en">Sushi Dai</span><span class="pr">¥¥</span><br><span class="d">Sushi. The market's legendary omakase breakfast at the Toyosu site — pristine cuts, chef-paced. Long pre-dawn line (arrive very early); ~¥6,000. Daiwa Sushi is the fallback.</span></div>
+      </div>
     </div>
 
     <div class="block" style="--accent:var(--fri)">
@@ -233,9 +262,14 @@
       <div class="lines">
         <div class="line"><span class="tag">See</span><span>Kaminarimon (雷門, the giant-lantern "Thunder Gate"), Nakamise stalls, Senso-ji (浅草寺) + pagoda, the quiet Denboin-dori lanes, and Kappabashi (合羽橋) "Kitchen Town" — the plastic/wax food-sample shops <span class="gift-chip">🎁 gift</span>. Sumida Park riverbank = your green stop.</span></div>
         <div class="line"><span class="tag">Do</span><span>Your hands-on workshop — Edo Kiriko (江戸切子, cut-glass) carving at <b>Sokichi</b> <span class="gift-chip">🎁 gift</span>, or wax food-sample making at <b>Ganso</b>. <span class="opt">Reserve ahead — see Reservations.</span> A finished cut-glass piece makes a beautiful, lasting present. <span class="opt">(Kintsugi has moved to Sunday — see the Shibuya/Ebisu stop.)</span></span></div>
-        <div class="line"><span class="tag">Eat</span><span>Asakusa is tempura country — <b>Daikokuya</b> (since 1887); plus soba and street taiyaki / melonpan.</span></div>
       </div>
       <div class="map" data-block="asakusa"></div>
+      <div class="eats">
+        <div class="eats-h">Where to eat</div>
+        <div class="eat"><span class="en">Yadoroku</span><span class="bg">Bib Gourmand</span><span class="pr"> · ¥</span><br><span class="d">Onigiri. Tokyo's oldest onigiri shop — two hand-pressed rice balls + pickles + miso soup from ~¥1,000, made to order behind Senso-ji. A perfect light breakfast/lunch. Cash only; closed Sun.</span></div>
+        <div class="eat"><span class="en">Daikokuya</span><span class="pr">¥¥</span><br><span class="d">Tempura. Meiji-era (1887) tendon institution — fat prawns over rice in dark sesame-oil batter. Expect a queue; ~¥2,000.</span></div>
+        <div class="eat"><span class="en">Morning &amp; street</span><span class="mk">light</span><br><span class="d">Graze Nakamise — Kagetsudō jumbo melon-pan, age-manjū, ningyō-yaki — then Suzukien for matcha gelato in escalating strengths. Coffee at Fuglen Asakusa.</span></div>
+      </div>
     </div>
 
     <div class="block" style="--accent:var(--fri)">
@@ -246,10 +280,14 @@
         <div class="line"><span class="tag">Do</span><span><b>Super Potato</b> (retro games), Mandarake, the GiGO arcades, gachapon halls (capsule-toy walls) <span class="gift-chip">🎁 gift</span>, and <b>Yodobashi Akiba</b> — where to compare those VITURE XR glasses.</span></div>
         <div class="line"><span class="tag">Robots</span><span><b>Tsukumo Robot Kingdom</b> — Japan's first robot specialty store (1-9-7 Sotokanda, upstairs in the Tsukumo PC bldg, ~5 min from the station): bipedal humanoids, build-it-yourself kits from a few hundred yen up to ¥200k+ competition bots, spare parts, plus 3D printers &amp; drones. Nearby Vstone and Robot Aisle are the same scene.</span></div>
         <div class="line"><span class="tag">Cats</span><span><b>Neco Republic</b> (Ochanomizu / Yushima) — a quiet breather from the arcade splurge, and a <b>rescue-first</b> cat café where every cat is adoptable and your entry funds their care; ~40 rescues, TNR-supporting. CRANE Bldg 4F, 3-1-9 Yushima — ~11 min walk from Akihabara (5 from Ochanomizu / Suehirochō). <span class="opt">Fri opens 15:00 (Sat/Sun 11:00); closed Thu; socks required; reserve for priority entry.</span></span></div>
-        <div class="line"><span class="tag">Eat</span><span>Kanda tsukemen / ramen, cheap themed eats, standing soba.</span></div>
         <div class="line"><span class="tag">Shop</span><span><b>Washlet / bidet</b> — <b>Yodobashi Akiba, 5F</b> has a dedicated bidet floor with live demo units. Buy the global 110–240V export model (look for the 海外仕様 / "global" sticker — TOTO Washlet S7/S5/SW), check your toilet's bowl shape &amp; bolt pitch, use the tax-free counter, and they'll arrange EMS/Yamato shipping home. Roughly 15–25% cheaper than at home after tax-free.</span></div>
       </div>
       <div class="map" data-block="akiba"></div>
+      <div class="eats">
+        <div class="eats-h">Where to eat — Kanda side</div>
+        <div class="eat"><span class="en">Kikanbo</span><span class="pr">¥</span><br><span class="d">Ramen. Karashibi "spicy-numbing" miso — chili heat plus Sichuan-pepper tingle at a level you choose; oni-mask decor, counter only. ~¥1,100; open daily.</span></div>
+        <div class="eat"><span class="en">Kanda Matsuya</span><span class="pr">¥¥</span><br><span class="d">Soba. Handmade buckwheat in a creaky 1884 room a few minutes south in Kanda; order seiro soba + a yakitori skewer. Cash only; closed Sun &amp; Mon; ~¥1,000–1,800.</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -268,9 +306,16 @@
         <div class="line"><span class="tag">Do</span><span>A single act of <b>Kabuki</b> (歌舞伎) at the Kabukiza (same-day box-office, English caption tablet); <b>Ippodo</b> (一保堂) for your sealed ceremonial matcha (抹茶) tin <span class="gift-chip">🎁 gift</span>; a depachika (basement food-hall) tasting crawl at <b>Mitsukoshi</b>, whose beautifully boxed wagashi and sweets travel well <span class="gift-chip">🎁 gift</span>.</span></div>
         <div class="line"><span class="tag">Shop</span><span><b>UNIQLO Ginza</b> <span class="gift-chip">🎁 gift</span> — the 12-floor global flagship on Chūō-dori (by Ginza Six): Ginza-exclusive tote bags &amp; tees, the UTme! counter to print your own design, and a 12F café. The personalised tote/T-shirt is a genuinely original present. <span class="opt">(UNIQLO TOKYO at Marronnier Gate, 4 min north, is the alt.)</span></span></div>
         <div class="line"><span class="tag">See</span><span>Chūō-dori (car-free on weekend afternoons); Hibiya Park nearby for a green breath.</span></div>
-        <div class="line"><span class="tag">Eat</span><span>Depachika bites for lunch; or a Ginza sushi / tempura splurge.</span></div>
       </div>
       <div class="map" data-block="ginza"></div>
+      <div class="eats">
+        <div class="eats-h">Where to eat</div>
+        <div class="eat"><span class="en">Tempura Abe Honten</span><span class="bg">Bib Gourmand</span><span class="pr"> · ¥ lunch</span><br><span class="d">Tempura. A hidden basement counter; the lunch sets from ~¥1,650 are superb value — light, crisp, fast. Open daily.</span></div>
+        <div class="eat"><span class="en">Ginza HARU CHAN Ramen</span><span class="bg">Bib Gourmand</span><span class="pr"> · ¥</span><br><span class="d">Ramen. Hand-flattened chewy noodles in a niboshi-and-pork shio broth (plus a cult vegan bowl). ~¥1,200–1,600; closed Mon.</span></div>
+        <div class="eat"><span class="en">Ginza Katsukami</span><span class="bg">Bib Gourmand</span><span class="pr"> · ¥¥</span><br><span class="d">Tonkatsu. Omakase-style premium pork, one freshly-fried cut at a time incl. rare cuts. Book online (set time slots); ~¥5,000–8,000.</span></div>
+        <div class="eat"><span class="en">Le Nougat</span><span class="bg">Bib Gourmand</span><span class="pr"> · ¥¥</span><br><span class="d">French bistro. Cosy, chanson-playing room; bouillabaisse, beef cheeks, duck, steak-frites, sharp-value wines. Dinner daily (Sat lunch too); reserve.</span></div>
+        <div class="eat"><span class="en">Morning / café</span><span class="mk">light</span><br><span class="d">Café de l'Ambre (1948 aged-bean kissaten) or a depachika breakfast crawl at Mitsukoshi.</span></div>
+      </div>
     </div>
 
     <div class="block" style="--accent:var(--sat)">
@@ -279,11 +324,15 @@
       <div class="lines">
         <div class="line"><span class="tag">See</span><span>The red-brick Marunouchi façade, the free KITTE rooftop, Marunouchi avenues.</span></div>
         <div class="line"><span class="tag">Do</span><span><b>Intermediatheque</b> (free, eclectic curiosity museum), Tokyo Character Street (basement character-goods arcade) <span class="gift-chip">🎁 gift</span> — easy, fun presents for friends.</span></div>
-        <div class="line"><span class="tag">Eat</span><span><b>Yūrakuchō gado-shita</b> (有楽町ガード下) — the yakitori joints under the railway arches — <b>your favourite dinner.</b> Tsukemen alt: Rokurinsha on Tokyo Ramen Street.</span></div>
         <div class="line"><span class="tag">Shop</span><span><b>ONLY PREMIO Tokyo</b> — the Yūrakuchō flagship of the Kyoto suit house ONLY (Hulic Square Tokyo 2F, ~3 min from Yūrakuchō, by Hankyu Men's/Lumine). Made-to-measure suits, jackets &amp; shirts with free alterations for years after; open 11:00–21:00. Book ahead for a fitting — a finished suit can be shipped on.</span></div>
         <div class="line"><span class="tag">Robots</span><span><b>LOVOT Store</b> (home robot) — Marunouchi Building 1F, right by Tokyo Station: meet Groove X's LOVOT, a warm, waddling companion robot that seeks you out and asks to be held. The robot itself sells to Japan residents only, but you can play with them freely and buy goods (a life-size plush is ¥9,980). A quick, delightful stop on this block.</span></div>
       </div>
       <div class="map" data-block="marunouchi"></div>
+      <div class="eats">
+        <div class="eats-h">Where to eat</div>
+        <div class="eat"><span class="en">Yūrakuchō gado-shita</span><span class="mk">your favourite</span><span class="pr"> · ¥–¥¥</span><br><span class="d">Yakitori. Smoky open-front counters under the JR railway arches — beer and skewers, hop between stalls. Walk-in, cash-friendly, buzzing at night.</span></div>
+        <div class="eat"><span class="en">Rokurinsha</span><span class="pr">¥</span><br><span class="d">Tsukemen. The famous thick-broth dipping ramen on Tokyo Station's Ramen Street; big queue, fast turnover. ~¥1,100.</span></div>
+      </div>
     </div>
 
     <div class="block" style="--accent:var(--sat)">
@@ -312,9 +361,16 @@
       <div class="lines">
         <div class="line"><span class="tag">See</span><span>Meiji Jingu (明治神宮) — a major shrine in its own forest (green stop); Takeshita Street (竹下通り) for rainbow crêpes; Omotesando architecture; the Nezu Museum garden (open Sun).</span></div>
         <div class="line"><span class="tag">Do</span><span><b>Cafe Reissue</b> 3-D latte art (open Sun); the Aoyama Flower Market Tea House — a greenhouse café.</span></div>
-        <div class="line"><span class="tag">Eat</span><span><b>AFURI</b> yuzu-shio ramen (you loved this); Maisen tonkatsu; a Harajuku sweets crawl.</span></div>
       </div>
       <div class="map" data-block="harajuku"></div>
+      <div class="eats">
+        <div class="eats-h">Where to eat</div>
+        <div class="eat"><span class="en">AFURI</span><span class="pr">¥</span><br><span class="d">Ramen. The bright yuzu-shio bowl you loved — citrusy, light, quick. ~¥1,300.</span></div>
+        <div class="eat"><span class="en">Maisen</span><span class="pr">¥¥</span><br><span class="d">Tonkatsu. Famous cutlets in a converted 1930s bathhouse in Aoyama; the katsu-sando is a great light bite. ~¥1,800–3,500.</span></div>
+        <div class="eat"><span class="en">Yakumo</span><span class="bg">Bib Gourmand</span><span class="pr"> · ¥ · Meguro</span><br><span class="d">Ramen. Ethereal hand-made wontons in a white/black shoyu broth — a top-tier bowl. Lunch only; a short hop south near Naka-Meguro. ~¥1,250.</span></div>
+        <div class="eat"><span class="en">Iruca Tokyo</span><span class="bg">Bib Gourmand</span><span class="pr"> · ¥¥ · Roppongi</span><br><span class="d">Ramen. Porcini-and-truffle shoyu over a layered chicken/beef/shellfish broth. A ~10-min hop toward Roppongi; queues; closed Mon. ~¥1,500.</span></div>
+        <div class="eat"><span class="en">Morning / café</span><span class="mk">light</span><br><span class="d">Koffee Mameya (Omotesandō pour-over), Bills ricotta pancakes, and Café Reissue's 3-D latte.</span></div>
+      </div>
     </div>
 
     <div class="block" style="--accent:var(--sun)">
@@ -324,9 +380,15 @@
         <div class="line"><span class="tag">See</span><span>The Scramble (from the Mag's Park rooftop, cheap), Hachiko (ハチ公), Miyashita Park.</span></div>
         <div class="line"><span class="tag">Craft</span><span><b>Kintsugi at Tsugu Tsugu (Ebisu)</b> <span class="booked">✓ Booked &amp; paid · Sun Jul 5 · 16:00–17:30</span><br>Your fixed slot — mend a ceramic piece with real 23K gold, English-guided; the Ebisu studio is one Yamanote stop south of Shibuya. Aim to arrive ~15:50. After the 17:30 finish, ride one stop up to Shibuya for Shibuya Sky at sunset (~19:00).</span></div>
         <div class="line"><span class="tag">Do</span><span><b>MEGA Donki</b> (Don Quijote) <span class="gift-chip">🎁 gift</span> — cosmetics, snacks and quirky souvenirs, open late; <b>Shibuya Sky at sunset</b> — book a timed slot weeks ahead.</span></div>
-        <div class="line"><span class="tag">Eat</span><span>Center-Gai izakaya or Uobei conveyor sushi. <span class="opt">Note: Nonbei Yokocho is closed Sunday.</span></span></div>
+        <div class="line"><span class="tag">Night</span><span>Casual alt: a Center-Gai izakaya or Uobei conveyor-belt sushi. <span class="opt">Note: Nonbei Yokocho is closed Sunday.</span></span></div>
       </div>
       <div class="map" data-block="shibuya"></div>
+      <div class="eats">
+        <div class="eats-h">Where to eat</div>
+        <div class="eat"><span class="en">Gyukatsu Motomura</span><span class="pr">¥¥</span><br><span class="d">Beef katsu. Crisp-fried rare beef cutlet you sear yourself on a hot stone; tiny counter, long line, open daily. ~¥1,900.</span></div>
+        <div class="eat"><span class="en">Morning / café</span><span class="mk">light</span><br><span class="d">About Life Coffee Brewers or Streamer for a quick standing coffee before the Scramble.</span></div>
+        <div class="eat"><span class="en">Ebisu note</span><span class="mk">closed Sun</span><br><span class="d">Toriyaki Ohana (refined counter yakitori by your kintsugi) is <b>shut on Sundays</b>, so it won't fit your Ebisu day — left out.</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -349,6 +411,22 @@
         <div class="line"><span class="tag">Back</span><span><b>Return:</b> Hakone Tozan bus from Moto-Hakone to Hakone-Yumoto, then the Romancecar to Shinjuku. Budget ~6–7 hours for the full loop at an unhurried pace — drop the checkpoint or a museum if time runs short.</span></div>
         <div class="line"><span class="tag">Note</span><span>Early July is rainy season, so <b>Fuji is a bonus, not a promise</b> — the Open-Air Museum and Ōwakudani carry the day even in cloud. Pack a layer (cooler up top) and your passport for tax-free shopping in Yumoto.</span></div>
       </div>
+    </div>
+    <div class="timeline">
+      <div class="tl-h">One realistic day · unhurried pace</div>
+      <div class="tl"><span class="tt">08:00</span><span><b>Romancecar</b> from Shinjuku (reserved seats) → Hakone-Yumoto, arrive ~09:20.</span></div>
+      <div class="tl"><span class="tt">09:30</span><span><b>Tozan switchback train</b> up to Chōkoku-no-Mori (~35 min).</span></div>
+      <div class="tl"><span class="tt">10:15</span><span><b>Hakone Open-Air Museum</b> — sculpture park + Picasso pavilion (~1.5 hrs).</span></div>
+      <div class="tl"><span class="tt">12:00</span><span>One stop to <b>Gōra</b> — lunch (soba, or the museum café).</span></div>
+      <div class="tl"><span class="tt">13:00</span><span><b>Cable car → ropeway</b> up over the ridge to Ōwakudani.</span></div>
+      <div class="tl"><span class="tt">13:40</span><span><b>Ōwakudani</b> — sulfur vents, black eggs, Fuji if it's clear (~45 min).</span></div>
+      <div class="tl"><span class="tt">14:40</span><span><b>Ropeway down</b> to Tōgendai on Lake Ashi.</span></div>
+      <div class="tl"><span class="tt">15:00</span><span><b>Pirate-ship cruise</b> across the lake to Moto-Hakone (~35 min).</span></div>
+      <div class="tl"><span class="tt">15:45</span><span><b>Hakone Shrine &amp; Heiwa-no-Torii</b> + a stretch of the cedar avenue (~1 hr). <span class="note">Skip or trim the Checkpoint if you're running late.</span></span></div>
+      <div class="tl"><span class="tt">16:50</span><span><b>Tozan bus</b> back down to Hakone-Yumoto (~40 min).</span></div>
+      <div class="tl"><span class="tt">17:40</span><span>Foot bath / snacks / souvenirs in Yumoto, then <b>Romancecar</b> to Shinjuku.</span></div>
+      <div class="tl"><span class="tt">~19:45</span><span>Back at Shinjuku — one stop from Yotsuya.</span></div>
+      <div class="tl"><span class="tt">Rain</span><span>Lean indoor — Open-Air Museum + Yumoto onsen — and don't sweat the ropeway/cruise views. Check the ropeway gas-closure status that morning.</span></div>
     </div>
     <div class="map" data-block="lo-hakone"></div>
   </div>
@@ -492,41 +570,50 @@
       {n:"Kabukichō neon · 3-D cat · Godzilla", lat:35.6938, lng:139.7034},
       {n:"Omoide Yokocho (yakitori)", lat:35.6927011, lng:139.6995778},
       {n:"Golden Gai (micro-bars)", lat:35.6941118, lng:139.7047611},
-      {n:"Fūunji (tsukemen)", lat:35.6868343, lng:139.6966393},
+      {n:"Fūunji (tsukemen)", lat:35.6868343, lng:139.6966393, food:true},
+      {n:"Konjiki Hototogisu (truffle ramen)", lat:35.6887843, lng:139.7082917, food:true},
+      {n:"Shinjuku Kappo Nakajima (¥ sardine lunch)", lat:35.6902024, lng:139.7040013, food:true},
       {n:"Game Center Mikado (pinball)", lat:35.7127351, lng:139.7034548}
     ]},
     toyosu:{center:[35.6442,139.7833], zoom:15, day:"fri", pins:[
       {n:"Toyosu Market — tuna auction deck", lat:35.6440911, lng:139.784281},
-      {n:"Sushi Dai (breakfast)", lat:35.6443009, lng:139.7824528}
+      {n:"Sushi Dai (breakfast)", lat:35.6443009, lng:139.7824528, food:true}
     ]},
     asakusa:{center:[35.7118,139.7925], zoom:15, day:"fri", pins:[
       {n:"Senso-ji + pagoda", lat:35.7147651, lng:139.7966553},
       {n:"Kaminarimon (Thunder Gate)", lat:35.7111163, lng:139.7963656},
       {n:"Kappabashi (Kitchen Town · plastic food)", lat:35.7105797, lng:139.7879645, gift:true},
       {n:"Sokichi — Edo Kiriko cut-glass", lat:35.710252, lng:139.797964, gift:true},
-      {n:"Daikokuya (tempura, est. 1887)", lat:35.7127383, lng:139.79557}
+      {n:"Daikokuya (tempura, est. 1887)", lat:35.7127383, lng:139.79557, food:true},
+      {n:"Yadoroku (onigiri · Bib Gourmand)", lat:35.716885, lng:139.794751, food:true}
     ]},
-    akiba:{center:[35.7001,139.7715], zoom:16, day:"fri", pins:[
+    akiba:{center:[35.6985,139.7710], zoom:15, day:"fri", pins:[
       {n:"Super Potato (retro games)", lat:35.6993585, lng:139.7707015},
       {n:"Yodobashi Akiba (XR glasses · washlet 5F)", lat:35.698917, lng:139.774798},
       {n:"Mandarake", lat:35.7003733, lng:139.7705031},
       {n:"GiGO arcade (Bldg 3)", lat:35.6992456, lng:139.7709552},
       {n:"Gachapon Hall (capsule toys)", lat:35.7018425, lng:139.7712256, gift:true},
       {n:"Tsukumo Robot Kingdom (humanoids · kits)", lat:35.7004, lng:139.7716},
-      {n:"Neco Republic (rescue cat café)", lat:35.7016, lng:139.7688}
+      {n:"Neco Republic (rescue cat café)", lat:35.7016, lng:139.7688},
+      {n:"Kikanbo (spicy-numbing miso ramen)", lat:35.6936985, lng:139.7724063, food:true},
+      {n:"Kanda Matsuya (soba, est. 1884)", lat:35.6961148, lng:139.7687883, food:true}
     ]},
     ginza:{center:[35.6705,139.765], zoom:15, day:"sat", pins:[
       {n:"Kabukiza (single-act Kabuki)", lat:35.6694253, lng:139.7677446},
       {n:"Ippodo — ceremonial matcha tin (Mitsukoshi B2)", lat:35.6715069, lng:139.7658249, gift:true},
       {n:"Mitsukoshi Ginza — depachika sweets", lat:35.6712864, lng:139.7657382, gift:true},
-      {n:"UNIQLO Ginza (12F flagship · UTme!)", lat:35.6692, lng:139.7637, gift:true}
+      {n:"UNIQLO Ginza (12F flagship · UTme!)", lat:35.6692, lng:139.7637, gift:true},
+      {n:"Tempura Abe Honten (¥ lunch · Bib)", lat:35.6721005, lng:139.7645383, food:true},
+      {n:"Ginza HARU CHAN Ramen (Bib)", lat:35.6708476, lng:139.7688332, food:true},
+      {n:"Ginza Katsukami (tonkatsu · Bib)", lat:35.6707126, lng:139.7636256, food:true},
+      {n:"Le Nougat (French bistro · Bib)", lat:35.6692929, lng:139.7648908, food:true}
     ]},
     marunouchi:{center:[35.6772,139.7645], zoom:15, day:"sat", pins:[
       {n:"Marunouchi Brick Square", lat:35.6785178, lng:139.7627684},
       {n:"Intermediatheque", lat:35.6800744, lng:139.7646866},
       {n:"Tokyo Character Street", lat:35.6820335, lng:139.7686549, gift:true},
-      {n:"Rokurinsha — tsukemen", lat:35.6800519, lng:139.7678455},
-      {n:"Yūrakuchō gado-shita (your dinner)", lat:35.6722281, lng:139.7603095},
+      {n:"Rokurinsha — tsukemen", lat:35.6800519, lng:139.7678455, food:true},
+      {n:"Yūrakuchō gado-shita (your dinner)", lat:35.6722281, lng:139.7603095, food:true},
       {n:"ONLY PREMIO Tokyo (made-to-measure suits)", lat:35.6746, lng:139.7628},
       {n:"LOVOT Store (home robot · Marunouchi Bldg)", lat:35.6812, lng:139.7649}
     ]},
@@ -537,10 +624,12 @@
       {n:"Meiji Jingu (forest shrine)", lat:35.6763976, lng:139.6993259},
       {n:"Takeshita Street", lat:35.6710335, lng:139.7051821},
       {n:"Cafe Reissue (3-D latte)", lat:35.6711763, lng:139.7079583},
-      {n:"AFURI — yuzu ramen", lat:35.6730053, lng:139.7038019},
-      {n:"Maisen — tonkatsu", lat:35.667925, lng:139.7115365},
+      {n:"AFURI — yuzu ramen", lat:35.6730053, lng:139.7038019, food:true},
+      {n:"Maisen — tonkatsu", lat:35.667925, lng:139.7115365, food:true},
       {n:"Aoyama Flower Market Tea House", lat:35.6622458, lng:139.7134816},
-      {n:"Nezu Museum garden", lat:35.6622568, lng:139.7170937}
+      {n:"Nezu Museum garden", lat:35.6622568, lng:139.7170937},
+      {n:"Yakumo (wonton ramen · Bib · Meguro)", lat:35.6501307, lng:139.6868459, food:true},
+      {n:"Iruca Tokyo (porcini ramen · Bib · Roppongi)", lat:35.6648012, lng:139.7316413, food:true}
     ]},
     shibuya:{center:[35.6595,139.700], zoom:16, day:"sun", pins:[
       {n:"Shibuya Scramble", lat:35.659482, lng:139.7005596},
@@ -548,7 +637,8 @@
       {n:"Shibuya Sky (sunset)", lat:35.6586719, lng:139.7019848},
       {n:"MEGA Donki — cosmetics & souvenirs", lat:35.6603873, lng:139.6978172, gift:true},
       {n:"Nonbei Yokocho (closed Sun)", lat:35.6599499, lng:139.701533},
-      {n:"Tsugu Tsugu Ebisu — kintsugi (gold repair)", lat:35.6505, lng:139.7180}
+      {n:"Tsugu Tsugu Ebisu — kintsugi (gold repair)", lat:35.6505, lng:139.7180},
+      {n:"Gyukatsu Motomura (beef katsu)", lat:35.656977, lng:139.7039981, food:true}
     ]},
     // ---- Hakone loop (Mon day-trip; lo- prefix keeps it off the Tokyo overview) ----
     "lo-hakone":{center:[35.222,139.058], zoom:12, day:"mon", pins:[
@@ -615,9 +705,10 @@
   function esc(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
   function gmapsDir(lat,lng,mode){ return 'https://www.google.com/maps/dir/?api=1&destination='+lat+','+lng+'&travelmode='+mode; }
   function buildPopup(p){
-    var name = (p.gift ? '🎁 ' : '') + p.n;
+    var name = (p.gift ? '🎁 ' : '') + (p.food ? '🍴 ' : '') + p.n;
     var html = '<b>'+esc(name)+'</b>';
     if(p.gift) html += "<br><span style='color:#ffd24a'>gift idea</span>";
+    if(p.food) html += "<br><span style='color:#ff8c42'>restaurant</span>";
     html += '<div class="pop-actions">'
          +  '<a class="pop-btn" href="'+gmapsDir(p.lat,p.lng,'transit')+'" target="_blank" rel="noopener">🚇 Transit</a>'
          +  '<a class="pop-btn" href="'+gmapsDir(p.lat,p.lng,'walking')+'" target="_blank" rel="noopener">🚶 Walk</a>'
@@ -710,7 +801,8 @@
     });
   }
   function addPoi(map, p, color, big){
-    var m = L.marker([p.lat,p.lng],{icon:dot(color,big,p.gift)}).addTo(map).bindPopup(buildPopup(p));
+    var c = p.food ? "#ff8c42" : color;
+    var m = L.marker([p.lat,p.lng],{icon:dot(c,big,p.gift)}).addTo(map).bindPopup(buildPopup(p));
     wireCourse(m, map, p);
     return m;
   }
